@@ -215,3 +215,9 @@ processed_data/
 # Ignore trained model files
 *.pth
 *.pt
+
+# Ignore all OAI tabular data
+data/OAICompleteData_ASCII/
+
+# Ignore all the .DS_Store files (macOS)
+.DS_Store 
