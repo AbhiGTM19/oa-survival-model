@@ -221,3 +221,8 @@ data/OAICompleteData_ASCII/
 
 # Ignore all the .DS_Store files (macOS)
 .DS_Store 
+
+# Ignore model files and directories
+*.pth
+*.pt
+models/
