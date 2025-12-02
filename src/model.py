@@ -2,26 +2,17 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
+# --- 1. Survival Model Architecture (Track 1 & 3) ---
 class WideAndDeepSurvivalModel(nn.Module):
     def __init__(self, wide_input_dim):
-        """
-        Args:
-            wide_input_dim (int): Number of clinical features (e.g., 8).
-        """
         super(WideAndDeepSurvivalModel, self).__init__()
         
-        # --- 1. The Deep Component (Image Encoder) ---
-        # We use ResNet-18 for a good balance of speed and performance.
-        # We load pre-trained weights to leverage knowledge from ImageNet.
+        # Deep Component (Image)
         resnet = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
-        
-        # Remove the final classification layer (fc)
-        # ResNet-18 outputs 512 features before the final layer.
         self.image_encoder = nn.Sequential(*list(resnet.children())[:-1])
         self.image_out_dim = 512
         
-        # --- 2. The Wide Component (Clinical Encoder) ---
-        # A simple MLP to process the tabular data
+        # Wide Component (Clinical)
         self.wide_encoder = nn.Sequential(
             nn.Linear(wide_input_dim, 32),
             nn.BatchNorm1d(32),
@@ -33,55 +24,42 @@ class WideAndDeepSurvivalModel(nn.Module):
         )
         self.wide_out_dim = 16
         
-        # --- 3. The Fusion Head (Combination) ---
-        # We concatenate the image and clinical features
+        # Fusion Head
         fusion_input_dim = self.image_out_dim + self.wide_out_dim
-        
         self.fusion_layer = nn.Sequential(
             nn.Linear(fusion_input_dim, 64),
             nn.BatchNorm1d(64),
             nn.ReLU(),
             nn.Dropout(0.2),
-            
-            # Final output: Single continuous risk score
-            nn.Linear(64, 1)
+            nn.Linear(64, 1) # Output: Log-Risk
         )
 
     def forward(self, image, clinical_data):
-        """
-        Args:
-            image: Tensor of shape (Batch, 3, 224, 224)
-            clinical_data: Tensor of shape (Batch, wide_input_dim)
-        """
-        # 1. Image Pathway
-        img_features = self.image_encoder(image)
-        # Flatten: (Batch, 512, 1, 1) -> (Batch, 512)
-        img_features = img_features.view(img_features.size(0), -1)
-        
-        # 2. Clinical Pathway
+        img_features = self.image_encoder(image).view(image.size(0), -1)
         clinical_features = self.wide_encoder(clinical_data)
-        
-        # 3. Fusion
         combined = torch.cat((img_features, clinical_features), dim=1)
-        risk_score = self.fusion_layer(combined)
-        
-        return risk_score
+        return self.fusion_layer(combined)
 
-if __name__ == "__main__":
-    # Sanity Check: Test the model with random data
-    print("Testing Model Architecture...")
+# --- 2. Generative Encoder Architecture (Track 2) ---
+class SemanticEncoder(nn.Module):
+    def __init__(self, latent_dim=256): 
+        super(SemanticEncoder, self).__init__()
+        # Standard ResNet
+        resnet = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+        
+        # Grayscale Fix (3 channels -> 1 channel)
+        original_first_layer = resnet.conv1
+        resnet.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        
+        # Average weights to preserve pre-training
+        with torch.no_grad():
+            resnet.conv1.weight[:] = original_first_layer.weight.sum(dim=1, keepdim=True) / 3.0
+            
+        # Bottleneck
+        self.features = nn.Sequential(*list(resnet.children())[:-1])
+        self.projection = nn.Linear(512, latent_dim)
     
-    # Random Inputs
-    dummy_img = torch.randn(2, 3, 224, 224) # Batch of 2 images
-    dummy_data = torch.randn(2, 8)          # Batch of 2 patients with 8 features
-    
-    # Initialize Model
-    model = WideAndDeepSurvivalModel(wide_input_dim=8)
-    
-    # Forward Pass
-    output = model(dummy_img, dummy_data)
-    
-    print(f"Image Input Shape: {dummy_img.shape}")
-    print(f"Clinical Input Shape: {dummy_data.shape}")
-    print(f"Model Output Shape: {output.shape}") # Should be [2, 1]
-    print("Success! Model is ready.")
+    def forward(self, x):
+        x = self.features(x).view(x.size(0), -1)
+        z = self.projection(x)
+        return z
