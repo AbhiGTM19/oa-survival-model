@@ -1,0 +1,160 @@
+File Name,Rows,Has ID,Tags,Score,Path
+AllClinical00.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical00.txt
+AllClinical10.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical10.txt
+AllClinical03.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical03.txt
+AllClinical05.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical05.txt
+AllClinical01.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical01.txt
+AllClinical06.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical06.txt
+AllClinical08.txt,4796,True,"OUTCOME, SYMPTOMS, XRAY, BIOMARKERS, LIFESTYLE, CLINICAL",2100,data/OAICompleteData_ASCII/AllClinical08.txt
+AllClinical12.txt,3002,True,"OUTCOME, SYMPTOMS, XRAY, LIFESTYLE, CLINICAL",2000,data/OAICompleteData_ASCII/AllClinical12.txt
+ALLCLINICAL14.txt,4478,True,"OUTCOME, SYMPTOMS, XRAY, CLINICAL",1900,data/OAICompleteData_ASCII/ALLCLINICAL14.txt
+ALLCLINICAL13.txt,4478,True,"OUTCOME, SYMPTOMS, XRAY, CLINICAL",1900,data/OAICompleteData_ASCII/ALLCLINICAL13.txt
+AllClinical09.txt,4796,True,"SYMPTOMS, XRAY, CLINICAL",1800,data/OAICompleteData_ASCII/AllClinical09.txt
+AllClinical11.txt,4796,True,"SYMPTOMS, XRAY, CLINICAL",1800,data/OAICompleteData_ASCII/AllClinical11.txt
+AllClinical07.txt,4796,True,"SYMPTOMS, XRAY, CLINICAL",1800,data/OAICompleteData_ASCII/AllClinical07.txt
+SubjectChar00.txt,4796,True,"SYMPTOMS, XRAY, BIOMARKERS",1800,data/OAICompleteData_ASCII/SubjectChar00.txt
+hxr_sq_ucsf06.txt,7276,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/hxr_sq_ucsf06.txt
+XRay08.txt,4796,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay08.txt
+XRay06.txt,15886,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay06.txt
+hxr_sq_ucsf00.txt,9412,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/hxr_sq_ucsf00.txt
+XRay10.txt,7788,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay10.txt
+MeasInventory.csv,4796,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/MeasInventory.csv
+XRay05.txt,7028,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay05.txt
+XRay01.txt,9775,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay01.txt
+XRay00.txt,15164,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay00.txt
+XRay03.txt,8069,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/XRay03.txt
+Biomarkers01.txt,4796,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/Biomarkers01.txt
+Biomarkers06.txt,4796,True,"XRAY, BIOMARKERS",1700,data/OAICompleteData_ASCII/Biomarkers06.txt
+KXR_SQ_BU00.txt,16666,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_SQ_BU00.txt
+kxr_sq_bu05.txt,7843,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_sq_bu05.txt
+Biomarkers03.txt,4796,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/Biomarkers03.txt
+kxr_sq_bu01.txt,8483,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_sq_bu01.txt
+MRI02.txt,4045,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI02.txt
+kxr_fta_duryea01.txt,5807,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_fta_duryea01.txt
+KXR_FTA_DURYEA00.txt,7410,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_FTA_DURYEA00.txt
+MRI03.txt,76306,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI03.txt
+Biomarkers05.txt,4796,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/Biomarkers05.txt
+MRI01.txt,68817,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI01.txt
+Biomarkers00.txt,4796,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/Biomarkers00.txt
+KXR_SQ_BU08.txt,7041,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_SQ_BU08.txt
+MRI00.txt,77224,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI00.txt
+kxr_sq_bu03.txt,7988,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_sq_bu03.txt
+OUTCOMES99.txt,4796,True,XRAY,1600,data/OAICompleteData_ASCII/OUTCOMES99.txt
+MRI08.txt,57799,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI08.txt
+KXR_FTA_DURYEA08.txt,3603,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_FTA_DURYEA08.txt
+kxr_fta_duryea05.txt,5313,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_fta_duryea05.txt
+MRI06.txt,75789,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI06.txt
+kxr_fta_duryea03.txt,5482,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_fta_duryea03.txt
+kMRI_SQ_MOAKS_BICL00.txt,5118,True,MRI_SEMILQ,1600,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL00.txt
+Biomarkers08.txt,4796,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/Biomarkers08.txt
+Enrollees.txt,4796,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/Enrollees.txt
+MRI05.txt,69210,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI05.txt
+KXR_SQ_BU06.txt,14405,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_SQ_BU06.txt
+MRI10.txt,65624,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI10.txt
+MRI04.txt,6924,True,BIOMARKERS,1600,data/OAICompleteData_ASCII/MRI04.txt
+KXR_SQ_BU12.txt,3435,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_SQ_BU12.txt
+kxr_fta_duryea06.txt,5092,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_fta_duryea06.txt
+kMRI_SQ_MOAKS_BICL01.txt,3937,True,MRI_SEMILQ,1600,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL01.txt
+KXR_SQ_BU10.txt,6956,True,XRAY,1600,data/OAICompleteData_ASCII/KXR_SQ_BU10.txt
+kxr_fta_duryea10.txt,3689,True,XRAY,1600,data/OAICompleteData_ASCII/kxr_fta_duryea10.txt
+Acceldatabymin08.txt,14878346,True,,1500,data/OAICompleteData_ASCII/Acceldatabymin08.txt
+Acceldatabyday08.txt,9399,True,,1500,data/OAICompleteData_ASCII/Acceldatabyday08.txt
+Biomarkers10.txt,4796,True,,1500,data/OAICompleteData_ASCII/Biomarkers10.txt
+Acceldatabymin06.txt,20629910,True,,1500,data/OAICompleteData_ASCII/Acceldatabymin06.txt
+MIF08.txt,14527,True,,1500,data/OAICompleteData_ASCII/MIF08.txt
+kxr_qjsw_duryea08.txt,3557,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea08.txt
+kxr_qjsw_duryea03.txt,5544,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea03.txt
+kxr_qjsw_duryea06.txt,5134,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea06.txt
+hxr_sq_summary.txt,9592,True,,1500,data/OAICompleteData_ASCII/hxr_sq_summary.txt
+kMRI_QCart_Eckstein00.txt,3708,True,,1500,data/OAICompleteData_ASCII/kMRI_QCart_Eckstein00.txt
+AccelDataByDay06.txt,13040,True,,1500,data/OAICompleteData_ASCII/AccelDataByDay06.txt
+MIF03.txt,14876,True,,1500,data/OAICompleteData_ASCII/MIF03.txt
+MIF06.txt,15492,True,,1500,data/OAICompleteData_ASCII/MIF06.txt
+MIF10.txt,14342,True,,1500,data/OAICompleteData_ASCII/MIF10.txt
+kxr_qjsw_duryea01.txt,5874,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea01.txt
+kxr_qjsw_duryea00.txt,6245,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea00.txt
+kxr_qjsw_duryea10.txt,3689,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea10.txt
+kxr_qjsw_duryea05.txt,5349,True,,1500,data/OAICompleteData_ASCII/kxr_qjsw_duryea05.txt
+MIF05.txt,15233,True,,1500,data/OAICompleteData_ASCII/MIF05.txt
+MIF01.txt,14839,True,,1500,data/OAICompleteData_ASCII/MIF01.txt
+MIF00.txt,15578,True,,1500,data/OAICompleteData_ASCII/MIF00.txt
+AllClinical04.txt,494,True,"SYMPTOMS, XRAY, BIOMARKERS, CLINICAL",1400,data/OAICompleteData_ASCII/AllClinical04.txt
+AllClinical02.txt,288,True,"SYMPTOMS, XRAY, BIOMARKERS, CLINICAL",1400,data/OAICompleteData_ASCII/AllClinical02.txt
+Clinical_FNIH.txt,600,True,"SYMPTOMS, XRAY, CLINICAL",1300,data/OAICompleteData_ASCII/Clinical_FNIH.txt
+kMRI_FNIH_Qcart_Biomediq03.txt,600,True,"MRI_SEMILQ, MRI_QUANT",1200,data/OAICompleteData_ASCII/kMRI_FNIH_Qcart_Biomediq03.txt
+kMRI_FNIH_Qcart_Biomediq01.txt,582,True,"MRI_SEMILQ, MRI_QUANT",1200,data/OAICompleteData_ASCII/kMRI_FNIH_Qcart_Biomediq01.txt
+kMRI_FNIH_Qcart_Biomediq00.txt,600,True,"MRI_SEMILQ, MRI_QUANT",1200,data/OAICompleteData_ASCII/kMRI_FNIH_Qcart_Biomediq00.txt
+kMRI_POMA_TKR_MOAKS_BICL.txt,1339,True,"MRI_SEMILQ, BIOMARKERS",1200,data/OAICompleteData_ASCII/kMRI_POMA_TKR_MOAKS_BICL.txt
+hxr_sq_ucsf01.txt,72,True,"XRAY, BIOMARKERS",1200,data/OAICompleteData_ASCII/hxr_sq_ucsf01.txt
+kMRI_POMA_IncOA_MOAKS_BICL.txt,2481,True,"MRI_SEMILQ, BIOMARKERS",1200,data/OAICompleteData_ASCII/kMRI_POMA_IncOA_MOAKS_BICL.txt
+kxr_sq_rel_bu06.txt,464,True,XRAY,1100,data/OAICompleteData_ASCII/kxr_sq_rel_bu06.txt
+Biospec_FNIH_Labcorp00.txt,600,True,BIOMARKERS,1100,data/OAICompleteData_ASCII/Biospec_FNIH_Labcorp00.txt
+Biomarkers04.txt,494,True,BIOMARKERS,1100,data/OAICompleteData_ASCII/Biomarkers04.txt
+flxr_kneealign_cooke05.txt,1822,True,XRAY,1100,data/OAICompleteData_ASCII/flxr_kneealign_cooke05.txt
+kmri_sq_BLKSBML_bicl00.txt,593,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kmri_sq_BLKSBML_bicl00.txt
+kxr_sq_rel_bu03.txt,552,True,XRAY,1100,data/OAICompleteData_ASCII/kxr_sq_rel_bu03.txt
+kMRI_SQ_MOAKS_BICL06.txt,2176,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL06.txt
+kmri_sq_bicl00.txt,115,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kmri_sq_bicl00.txt
+kMRI_FNIH_SQ_MOAKS_BICL00.txt,600,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_FNIH_SQ_MOAKS_BICL00.txt
+kMRI_FNIH_SQ_MOAKS_BICL03.txt,600,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_FNIH_SQ_MOAKS_BICL03.txt
+kMRI_FNIH_SQ_MOAKS_BICL01.txt,600,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_FNIH_SQ_MOAKS_BICL01.txt
+Biomarkers02.txt,288,True,BIOMARKERS,1100,data/OAICompleteData_ASCII/Biomarkers02.txt
+kMRI_SQ_MOAKS_BICL03.txt,2895,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL03.txt
+KXR_FTA_DURYEA12.txt,1186,True,XRAY,1100,data/OAICompleteData_ASCII/KXR_FTA_DURYEA12.txt
+kxr_sq_rel_bu05.txt,516,True,XRAY,1100,data/OAICompleteData_ASCII/kxr_sq_rel_bu05.txt
+flxr_kneealign_cooke06.txt,264,True,XRAY,1100,data/OAICompleteData_ASCII/flxr_kneealign_cooke06.txt
+kmri_sq_BLKSBML_bicl03.txt,593,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kmri_sq_BLKSBML_bicl03.txt
+kMRI_SQ_MOAKS_BICL05.txt,1401,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL05.txt
+flxr_kneealign_cooke03.txt,2550,True,XRAY,1100,data/OAICompleteData_ASCII/flxr_kneealign_cooke03.txt
+kMRI_SQ_MOAKS_BICL10.txt,1180,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL10.txt
+flxr_kneealign_cooke01.txt,2474,True,XRAY,1100,data/OAICompleteData_ASCII/flxr_kneealign_cooke01.txt
+sAGEAncillaryStudy.txt,746,True,OUTCOME,1100,data/OAICompleteData_ASCII/sAGEAncillaryStudy.txt
+Biospec_FNIH_Labcorp01.txt,587,True,BIOMARKERS,1100,data/OAICompleteData_ASCII/Biospec_FNIH_Labcorp01.txt
+kMRI_SQ_MOAKS_BICL08.txt,569,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kMRI_SQ_MOAKS_BICL08.txt
+kxr_sq_rel_bu00.txt,596,True,XRAY,1100,data/OAICompleteData_ASCII/kxr_sq_rel_bu00.txt
+kmri_sq_bicl03.txt,115,True,MRI_SEMILQ,1100,data/OAICompleteData_ASCII/kmri_sq_bicl03.txt
+kxr_sq_rel_bu01.txt,572,True,XRAY,1100,data/OAICompleteData_ASCII/kxr_sq_rel_bu01.txt
+Biospec_FNIH_Labcorp03.txt,599,True,BIOMARKERS,1100,data/OAICompleteData_ASCII/Biospec_FNIH_Labcorp03.txt
+Accelerometry06.txt,2712,True,,1000,data/OAICompleteData_ASCII/Accelerometry06.txt
+kmri_qcart_vs00.txt,160,True,,1000,data/OAICompleteData_ASCII/kmri_qcart_vs00.txt
+kMRI_FNIH_Boneshape_Imorphics00.txt,600,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_Boneshape_Imorphics00.txt
+kmri_qcart_eckstein05.txt,318,True,,1000,data/OAICompleteData_ASCII/kmri_qcart_eckstein05.txt
+kmri_qcart_vs01.txt,160,True,,1000,data/OAICompleteData_ASCII/kmri_qcart_vs01.txt
+kMRI_FNIH_SBP_Qmetrics01.txt,600,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_SBP_Qmetrics01.txt
+Accelerometry08.txt,1797,True,,1000,data/OAICompleteData_ASCII/Accelerometry08.txt
+kMRI_POMA_TKR_Chondrometrics.txt,1330,True,,1000,data/OAICompleteData_ASCII/kMRI_POMA_TKR_Chondrometrics.txt
+kMRI_QCart_Link00.txt,300,True,,1000,data/OAICompleteData_ASCII/kMRI_QCart_Link00.txt
+kMRI_FNIH_SBP_Qmetrics00.txt,600,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_SBP_Qmetrics00.txt
+kMRI_FNIH_SBP_Qmetrics03.txt,600,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_SBP_Qmetrics03.txt
+kMRI_QCart_Link06.txt,300,True,,1000,data/OAICompleteData_ASCII/kMRI_QCart_Link06.txt
+kMRI_FNIH_QCart_Chondrometrics00.txt,600,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_QCart_Chondrometrics00.txt
+kMRI_QCart_Link03.txt,287,True,,1000,data/OAICompleteData_ASCII/kMRI_QCart_Link03.txt
+kMRI_QCart_Eckstein03.txt,2467,True,,1000,data/OAICompleteData_ASCII/kMRI_QCart_Eckstein03.txt
+MIF04.txt,1772,True,,1000,data/OAICompleteData_ASCII/MIF04.txt
+BoneAncillaryStudy.txt,1212,True,,1000,data/OAICompleteData_ASCII/BoneAncillaryStudy.txt
+kXR_FNIH_BTI_Duke03.txt,600,True,,1000,data/OAICompleteData_ASCII/kXR_FNIH_BTI_Duke03.txt
+MIF02.txt,1125,True,,1000,data/OAICompleteData_ASCII/MIF02.txt
+kXR_FNIH_BTI_Duke00.txt,600,True,,1000,data/OAICompleteData_ASCII/kXR_FNIH_BTI_Duke00.txt
+kXR_FNIH_BTI_Duke01.txt,600,True,,1000,data/OAICompleteData_ASCII/kXR_FNIH_BTI_Duke01.txt
+kmri_qcart_eckstein06.txt,836,True,,1000,data/OAICompleteData_ASCII/kmri_qcart_eckstein06.txt
+COVIDQ97.txt,2071,True,,1000,data/OAICompleteData_ASCII/COVIDQ97.txt
+kxr_qjsw_rel_duryea03.txt,500,True,,1000,data/OAICompleteData_ASCII/kxr_qjsw_rel_duryea03.txt
+FLXR_KneeAlign_Duryea05.txt,1828,True,,1000,data/OAICompleteData_ASCII/FLXR_KneeAlign_Duryea05.txt
+kxr_qjsw_rel_duryea00.txt,556,True,,1000,data/OAICompleteData_ASCII/kxr_qjsw_rel_duryea00.txt
+kmri_sq_worms_link06.txt,300,True,,1000,data/OAICompleteData_ASCII/kmri_sq_worms_link06.txt
+kxr_qjsw_rel_duryea01.txt,524,True,,1000,data/OAICompleteData_ASCII/kxr_qjsw_rel_duryea01.txt
+FLXR_KneeAlign_Duryea06.txt,352,True,,1000,data/OAICompleteData_ASCII/FLXR_KneeAlign_Duryea06.txt
+kMRI_QCart_Eckstein01.txt,2461,True,,1000,data/OAICompleteData_ASCII/kMRI_QCart_Eckstein01.txt
+kMRI_SQ_WORMS_Link03.txt,291,True,,1000,data/OAICompleteData_ASCII/kMRI_SQ_WORMS_Link03.txt
+kxr_qjsw_rel_duryea05.txt,144,True,,1000,data/OAICompleteData_ASCII/kxr_qjsw_rel_duryea05.txt
+FLXR_KneeAlign_Duryea03.txt,2522,True,,1000,data/OAICompleteData_ASCII/FLXR_KneeAlign_Duryea03.txt
+kMRI_FNIH_QCart_Chondrometrics01.txt,582,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_QCart_Chondrometrics01.txt
+kMRI_FNIH_QCart_Chondrometrics03.txt,599,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_QCart_Chondrometrics03.txt
+kmri_sq_worms_link00.txt,300,True,,1000,data/OAICompleteData_ASCII/kmri_sq_worms_link00.txt
+FLXR_KneeAlign_Duryea01.txt,2864,True,,1000,data/OAICompleteData_ASCII/FLXR_KneeAlign_Duryea01.txt
+kMRI_FNIH_Boneshape_Imorphics01.txt,582,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_Boneshape_Imorphics01.txt
+kMRI_FNIH_Boneshape_Imorphics03.txt,600,True,,1000,data/OAICompleteData_ASCII/kMRI_FNIH_Boneshape_Imorphics03.txt
+Biospec_FNIH_JoCo_Demographics.txt,129,False,"OUTCOME, CLINICAL",200,data/OAICompleteData_ASCII/Biospec_FNIH_JoCo_Demographics.txt
+kMRI_SQ_WORMS_Link_Formats.txt,59,False,MRI_SEMILQ,100,data/OAICompleteData_ASCII/kMRI_SQ_WORMS_Link_Formats.txt
+Biospec_FNIH_JoCo_Assays.txt,129,False,BIOMARKERS,100,data/OAICompleteData_ASCII/Biospec_FNIH_JoCo_Assays.txt
+sAGEAncillaryStudy_Formats.txt,54,False,,0,data/OAICompleteData_ASCII/sAGEAncillaryStudy_Formats.txt
