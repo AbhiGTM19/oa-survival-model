@@ -68,18 +68,32 @@ class WideAndDeepSurvivalModel(nn.Module):
 class SemanticEncoder(nn.Module):
     def __init__(self, latent_dim=256): 
         super(SemanticEncoder, self).__init__()
-        resnet = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
         
-        # Grayscale Fix
-        original_first_layer = resnet.conv1
-        resnet.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        # UPGRADE: Using DenseNet-121 (Matches Survival Model)
+        densenet = models.densenet121(weights=models.DenseNet121_Weights.DEFAULT)
+        
+        # --- GRAYSCALE FIX FOR DENSENET ---
+        # DenseNet's first layer is named 'features.conv0' (unlike ResNet's 'conv1')
+        original_first_layer = densenet.features.conv0
+        
+        # Create new 1-channel layer
+        densenet.features.conv0 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        
+        # Average weights to preserve pre-training
         with torch.no_grad():
-            resnet.conv1.weight[:] = original_first_layer.weight.sum(dim=1, keepdim=True) / 3.0
+            densenet.features.conv0.weight[:] = original_first_layer.weight.sum(dim=1, keepdim=True) / 3.0
             
-        self.features = nn.Sequential(*list(resnet.children())[:-1])
-        self.projection = nn.Linear(512, latent_dim)
+        # Remove classifier (DenseNet output is 'classifier')
+        # We keep 'features' (the CNN part)
+        self.features = densenet.features
+        
+        # DenseNet-121 outputs 1024 channels at the end
+        self.global_pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.projection = nn.Linear(1024, latent_dim) # 1024 -> 256
     
     def forward(self, x):
-        x = self.features(x).view(x.size(0), -1)
-        z = self.projection(x)
+        x = self.features(x)            # [Batch, 1024, 7, 7]
+        x = self.global_pool(x)         # [Batch, 1024, 1, 1]
+        x = x.view(x.size(0), -1)       # [Batch, 1024]
+        z = self.projection(x)          # [Batch, 256]
         return z
