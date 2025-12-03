@@ -24,16 +24,122 @@ def robust_read(fname):
             continue
     return None
 
+def build_base_cohort():
+    print("   ⚠️ Base file not found. Building from raw OAI files...")
+    
+    # Define paths
+    enrollees_path = 'Enrollees.txt'
+    outcomes_path = 'OUTCOMES99.txt'
+    xray_path = 'KXR_SQ_BU00.txt'
+    
+    # Load Data
+    df_enrol = robust_read(enrollees_path)
+    df_out = robust_read(outcomes_path)
+    df_xray = robust_read(xray_path)
+    
+    if df_enrol is None or df_out is None or df_xray is None:
+        print("   ❌ Critical raw files missing (Enrollees, Outcomes, or XRay). Cannot build base.")
+        return None
+
+    # 1. Clean Outcomes
+    if 'id' in df_out.columns:
+        df_out = df_out.rename(columns={'id': 'ID'})
+    
+    # 2. Clean X-Ray (Baseline KL Grade)
+    # Filter for READPRJ=15 (Main Reading)
+    if 'READPRJ' in df_xray.columns:
+        df_xray = df_xray[df_xray['READPRJ'] == 15].copy()
+    
+    # Clean KL Grade
+    if 'V00XRKL' in df_xray.columns:
+        # Extract number from "2: Minimal" -> 2
+        df_xray['KL_Grade'] = pd.to_numeric(
+            df_xray['V00XRKL'].astype(str).str.split(':').str[0], 
+            errors='coerce'
+        )
+    else:
+        print("   ⚠️ V00XRKL (KL Grade) not found in XRay file.")
+        df_xray['KL_Grade'] = np.nan
+
+    # Clean Side
+    if 'SIDE' in df_xray.columns:
+        # Extract number from "1: Right" -> 1
+        df_xray['Knee_Side'] = pd.to_numeric(
+            df_xray['SIDE'].astype(str).str.split(':').str[0], 
+            errors='coerce'
+        )
+    
+    # Keep essential X-Ray columns
+    df_xray = df_xray[['ID', 'Knee_Side', 'KL_Grade']].dropna(subset=['KL_Grade', 'Knee_Side'])
+    
+    # Remove duplicates
+    df_xray = df_xray.drop_duplicates(subset=['ID', 'Knee_Side'])
+    
+    # 3. Merge to create Base
+    # Start with X-Ray (Knee Level)
+    df_base = pd.merge(df_xray, df_enrol, on='ID', how='left')
+    df_base = pd.merge(df_base, df_out, on='ID', how='left')
+    
+    # 4. Define Target (Event/Time)
+    # Assuming OUTCOMES99 contains 'V99RNTCNT' (Right Knee TKR Time) and 'V99LNTCNT' (Left Knee TKR Time)
+    # And 'V99RKR' / 'V99LKR' (1=Yes, 0=No) or similar.
+    # We need to map side-specific outcomes.
+    
+    # Note: Column names in OUTCOMES99 can vary. 
+    # Common OAI: V99ERKR (Right Event), V99ELKR (Left Event), V99RKV (Right Time), V99LKV (Left Time)
+    # Let's check columns if possible, or use standard OAI mapping.
+    # For now, we'll try standard names.
+    
+    # Map Event
+    # 1=Right, 2=Left
+    
+    # Initialize
+    df_base['event'] = 0
+    df_base['time_to_event'] = 0.0
+    
+    # Check for common outcome columns
+    # V99ERKR: Total Knee Replacement Right (1=Yes)
+    # V99ELKR: Total Knee Replacement Left (1=Yes)
+    # V99RNTCNT: Time to TKR Right (days)
+    # V99LNTCNT: Time to TKR Left (days)
+    
+    has_outcomes = False
+    if 'V99ERKR' in df_base.columns and 'V99ELKR' in df_base.columns:
+        # Right Knee
+        mask_r = (df_base['Knee_Side'] == 1)
+        df_base.loc[mask_r, 'event'] = pd.to_numeric(df_base.loc[mask_r, 'V99ERKR'], errors='coerce').fillna(0)
+        df_base.loc[mask_r, 'time_to_event'] = pd.to_numeric(df_base.loc[mask_r, 'V99RNTCNT'], errors='coerce').fillna(0)
+        
+        # Left Knee
+        mask_l = (df_base['Knee_Side'] == 2)
+        df_base.loc[mask_l, 'event'] = pd.to_numeric(df_base.loc[mask_l, 'V99ELKR'], errors='coerce').fillna(0)
+        df_base.loc[mask_l, 'time_to_event'] = pd.to_numeric(df_base.loc[mask_l, 'V99LNTCNT'], errors='coerce').fillna(0)
+        
+        has_outcomes = True
+    else:
+        print("   ⚠️ Outcome columns (V99ERKR/V99ELKR) not found. Checking alternatives...")
+        # Try finding any column with 'KR' (Knee Replacement)
+        kr_cols = [c for c in df_base.columns if 'KR' in c]
+        print(f"   Found potential KR columns: {kr_cols[:5]}")
+    
+    if not has_outcomes:
+        print("   ⚠️ Could not map outcomes. Setting event=0 for all.")
+    
+    print(f"   ✅ Built Base Cohort from raw files. Shape: {df_base.shape}")
+    return df_base
+
 def build_mega_cohort():
     print("🚀 Starting Mega-Merge...")
     
     # 1. Load Base Cohort (3526 Knees)
-    if not os.path.exists(BASE_PARQUET):
-        print(f"❌ Base file not found: {BASE_PARQUET}")
-        return
-
-    df_base = pd.read_parquet(BASE_PARQUET)
-    print(f"Base Cohort: {df_base.shape}")
+    if os.path.exists(BASE_PARQUET):
+        df_base = pd.read_parquet(BASE_PARQUET)
+        print(f"Base Cohort Loaded: {df_base.shape}")
+    else:
+        df_base = build_base_cohort()
+        if df_base is None:
+            print("❌ Failed to build base cohort. Exiting.")
+            return
 
     # 2. Merge Clinical (Patient-Level)
     print("   Merging Clinical Data...")
