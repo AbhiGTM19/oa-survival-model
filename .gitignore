@@ -212,10 +212,6 @@ data/
 # Ignore all preprocessed output
 processed_data/
 
-# Ignore trained model files
-*.pth
-*.pt
-
 # Ignore all OAI tabular data
 data/OAICompleteData_ASCII/
 
@@ -225,4 +221,5 @@ data/OAICompleteData_ASCII/
 # Ignore model files and directories
 *.pth
 *.pt
+*.csv
 models/

@@ -135,10 +135,119 @@ def build_mega_cohort():
         
         print(f"   ✅ Added MRI Scores. New Shape: {df_base.shape}")
 
-    # 4. Save
-    df_base.to_parquet(OUTPUT_PARQUET, index=False)
-    print(f"\n🎉 Mega-Cohort Saved: {OUTPUT_PARQUET}")
-    print(f"Columns: {df_base.columns.tolist()}")
+    # 4. Merge Quantitative Cartilage (MRI)
+    print("   Merging Quantitative Cartilage Data...")
+    df_qcart = robust_read('kMRI_FNIH_QCart_Chondrometrics00.txt')
+    
+    if df_qcart is not None:
+        if df_qcart['side'].dtype == 'O':
+            df_qcart['side'] = df_qcart['side'].map({'1: Right': 1, '2: Left': 2})
+            
+        df_qcart = df_qcart.rename(columns={
+            'side': 'Knee_Side',
+            'V00WMTMTH': 'Medial_Tibial_Thickness',
+            'V00WLTMTH': 'Lateral_Tibial_Thickness'
+        })
+        
+        qcart_cols = ['ID', 'Knee_Side', 'Medial_Tibial_Thickness', 'Lateral_Tibial_Thickness']
+        existing_qcart = [c for c in qcart_cols if c in df_qcart.columns]
+        
+        df_base = pd.merge(df_base, df_qcart[existing_qcart], on=['ID', 'Knee_Side'], how='left')
+        
+        # Impute
+        for col in ['Medial_Tibial_Thickness', 'Lateral_Tibial_Thickness']:
+            if col in df_base.columns:
+                df_base[col] = df_base[col].fillna(df_base[col].median())
+        
+        print(f"   ✅ Added Cartilage Thickness. New Shape: {df_base.shape}")
+
+    # 5. Merge Subject Characteristics (Demographics)
+    print("   Merging Subject Characteristics...")
+    df_char = robust_read('SubjectChar00.txt')
+    
+    if df_char is not None:
+        df_char = df_char.rename(columns={
+            'V00EDCV': 'Education',
+            'V00INCOME': 'Income'
+        })
+        
+        char_cols = ['ID', 'Education', 'Income']
+        existing_char = [c for c in char_cols if c in df_char.columns]
+        
+        # Merge (Patient Level)
+        df_base = pd.merge(df_base, df_char[existing_char], on='ID', how='left')
+        
+        # Impute
+        if 'Education' in df_base.columns: df_base['Education'] = df_base['Education'].fillna('Unknown')
+        if 'Income' in df_base.columns: df_base['Income'] = df_base['Income'].fillna('Unknown')
+        
+        print(f"   ✅ Added Demographics. New Shape: {df_base.shape}")
+
+    # 6. Merge Biomarkers (FNIH Sub-cohort)
+    print("   Merging Biomarker Data (FNIH)...")
+    # Biospec_FNIH_Labcorp00.txt contains the specific markers needed
+    df_bio = robust_read('Biospec_FNIH_Labcorp00.txt')
+    
+    if df_bio is not None:
+        # Rename columns to match App expectations
+        # V00Serum_Comp_lc -> Bio_COMP
+        # V00Urine_CTXII_lc -> Bio_CTXI
+        # V00Serum_HA_lc -> Bio_HA
+        # V00Serum_C2C_lc -> Bio_C2C
+        # V00Serum_CPII_lc -> Bio_CPII
+        
+        bio_map = {
+            'V00Serum_Comp_lc': 'Bio_COMP',
+            'V00Urine_CTXII_lc': 'Bio_CTXI',
+            'V00Serum_HA_lc': 'Bio_HA',
+            'V00Serum_C2C_lc': 'Bio_C2C',
+            'V00Serum_CPII_lc': 'Bio_CPII'
+        }
+        
+        df_bio = df_bio.rename(columns=bio_map)
+        
+        # Keep only ID and the mapped columns
+        bio_cols = ['ID'] + list(bio_map.values())
+        existing_bio = [c for c in bio_cols if c in df_bio.columns]
+        
+        # DROP EXISTING BIOMARKER COLUMNS FROM BASE IF PRESENT
+        # This prevents _x/_y suffixes and ensures we use the fresh data
+        cols_to_drop = [c for c in list(bio_map.values()) if c in df_base.columns]
+        if cols_to_drop:
+            print(f"   ⚠️ Dropping existing empty/old columns: {cols_to_drop}")
+            df_base = df_base.drop(columns=cols_to_drop)
+        
+        # Merge (Left Join for Mega Cohort)
+        df_mega = pd.merge(df_base, df_bio[existing_bio], on='ID', how='left')
+        
+        # Create Precision Cohort (Inner Join - Only those with biomarkers)
+        # We filter for rows where at least one key biomarker is present
+        # Note: Using 'Bio_COMP' as a proxy for "has biomarker data"
+        if 'Bio_COMP' in df_mega.columns:
+            df_fnih = df_mega.dropna(subset=['Bio_COMP']).copy()
+        else:
+            df_fnih = pd.DataFrame() # Empty if merge failed
+            
+        print(f"   ✅ Added Biomarkers. Mega Shape: {df_mega.shape}, FNIH Shape: {df_fnih.shape}")
+    else:
+        df_mega = df_base
+        df_fnih = pd.DataFrame()
+        print("   ⚠️ Biomarker file not found. Skipping.")
+
+    # 7. Save Outputs
+    # A. Mega Cohort (Full)
+    df_mega.to_parquet(OUTPUT_PARQUET, index=False)
+    print(f"\n🎉 Mega-Cohort Saved: {OUTPUT_PARQUET} (Rows: {len(df_mega)})")
+    
+    # B. Precision Cohort (FNIH)
+    fnih_path = OUTPUT_PARQUET.replace('mega_cohort', 'FNIH_biomarker_cohort')
+    if not df_fnih.empty:
+        df_fnih.to_parquet(fnih_path, index=False)
+        print(f"🎉 Precision Cohort Saved: {fnih_path} (Rows: {len(df_fnih)})")
+    else:
+        print("⚠️ Precision Cohort empty (no biomarker overlap).")
+
+    print(f"Columns: {df_mega.columns.tolist()}")
 
 if __name__ == "__main__":
     build_mega_cohort()

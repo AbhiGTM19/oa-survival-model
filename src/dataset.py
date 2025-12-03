@@ -5,9 +5,21 @@ import numpy as np
 from PIL import Image
 import torch
 from torch.utils.data import Dataset
+from typing import Optional, Callable, Tuple
 
 class TriModalDataset(Dataset):
-    def __init__(self, dataframe, image_dir, transform=None, mode='prod'):
+    """
+    Dataset for Tri-Modal Osteoarthritis Survival Analysis.
+    Handles Image, Clinical, and Biomarker data.
+    """
+    def __init__(self, dataframe: pd.DataFrame, image_dir: str, transform: Optional[Callable] = None, mode: str = 'prod'):
+        """
+        Args:
+            dataframe (pd.DataFrame): DataFrame containing patient data.
+            image_dir (str): Directory containing X-Ray images.
+            transform (callable, optional): Optional transform to be applied on a sample.
+            mode (str): 'prod' for production (strict ID matching), 'sandbox' for testing (random images).
+        """
         self.df = dataframe
         self.image_dir = image_dir
         self.transform = transform
@@ -17,10 +29,10 @@ class TriModalDataset(Dataset):
             self.all_image_paths = glob.glob(f"{image_dir}/**/*.png", recursive=True) + \
                                    glob.glob(f"{image_dir}/**/*.jpg", recursive=True)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.df)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         row = self.df.iloc[idx]
         
         # --- 1. Image Modality ---
@@ -39,7 +51,7 @@ class TriModalDataset(Dataset):
             image = Image.open(img_path).convert('RGB')
             if self.transform:
                 image = self.transform(image)
-        except:
+        except Exception:
             # Black image fallback
             image = torch.zeros(3, 224, 224)
 
@@ -52,7 +64,11 @@ class TriModalDataset(Dataset):
             # New Platinum Features
             'V00KOOSQOL',   # Quality of Life (Strong predictor)
             'V00PASE',      # Physical Activity
-            'MRI_BML_Score' # Bone Marrow Lesion Score (The strongest MRI feature)
+            'MRI_BML_Score', # Bone Marrow Lesion Score (The strongest MRI feature)
+            'Medial_Tibial_Thickness',
+            'Lateral_Tibial_Thickness',
+            'Education',
+            'Income'
         ]
         
         clin_features = []
@@ -80,17 +96,25 @@ class TriModalDataset(Dataset):
 
 # --- Added for Phase 4 (Generative Training) ---
 class FullScaleImageDataset(Dataset):
-    def __init__(self, image_dir, transform=None):
+    """
+    Dataset for Full-Scale Image Training (Generative Models).
+    """
+    def __init__(self, image_dir: str, transform: Optional[Callable] = None):
+        """
+        Args:
+            image_dir (str): Directory containing images.
+            transform (callable, optional): Optional transform to be applied on a sample.
+        """
         self.transform = transform
         # Recursive glob to find ALL images
         self.image_paths = glob.glob(f"{image_dir}/**/*.png", recursive=True) + \
                            glob.glob(f"{image_dir}/**/*.jpg", recursive=True)
         print(f"🚀 Found {len(self.image_paths)} images for Full-Scale Training.")
         
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.image_paths)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx: int) -> torch.Tensor:
         img_path = self.image_paths[idx]
         try:
             # Load as Grayscale (1 channel) for the Medical Diffusion Model
