@@ -1,0 +1,20 @@
+<mat-card class="risk-card" [ngClass]="riskClass.toLowerCase()">
+    <div class="card-content">
+        <div class="score-section">
+            <span class="label">Predicted Risk Score</span>
+            <div class="score-value">
+                {{ score | number:'1.1-1' }}<span class="percent">%</span>
+            </div>
+        </div>
+
+        <div class="class-section">
+            <mat-chip-set>
+                <mat-chip [color]="getChipColor()" selected>
+                    <mat-icon matChipAvatar>{{ getIcon() }}</mat-icon>
+                    {{ riskClass }} Risk
+                </mat-chip>
+            </mat-chip-set>
+            <p class="description">{{ getDescription() }}</p>
+        </div>
+    </div>
+</mat-card>

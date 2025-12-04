@@ -1,0 +1,81 @@
+.risk-card {
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.3s;
+}
+
+.risk-card:hover {
+    transform: translateY(-2px);
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+}
+
+.score-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+.score-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.percent {
+    font-size: 1.5rem;
+    font-weight: 600;
+    opacity: 0.6;
+    margin-left: 2px;
+}
+
+.class-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.description {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* Theme Variants */
+.low {
+    background: linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%);
+    color: #14532D;
+}
+
+.moderate {
+    background: linear-gradient(135deg, #FEF9C3 0%, #FEF08A 100%);
+    color: #713F12;
+}
+
+.high {
+    background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+    color: #7F1D1D;
+}
+
+/* Chip Overrides */
+::ng-deep .mat-mdc-chip {
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 0.5rem 1rem !important;
+}

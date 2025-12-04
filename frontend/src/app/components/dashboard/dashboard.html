@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+    <div class="header-section">
+        <app-risk-card [score]="data.risk_score" [riskClass]="data.risk_class"></app-risk-card>
+    </div>
+
+    <mat-card class="content-card">
+        <mat-tab-group animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="start">
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="tab-icon">show_chart</mat-icon>
+                    Prognostic Overview
+                </ng-template>
+                <div class="tab-content">
+                    <div class="chart-section">
+                        <h3>5-Year TKR Probability</h3>
+                        <app-survival-chart [data]="data.survival_curve"></app-survival-chart>
+                    </div>
+
+                    <div class="drivers-section">
+                        <h3>Key Risk Drivers</h3>
+                        <div class="driver-list">
+                            <div class="driver-item">
+                                <span class="label">KL Grade</span>
+                                <span class="value">{{ data.risk_class === 'High' ? 'Severe (4)' : 'Moderate (2-3)'
+                                    }}</span>
+                            </div>
+                            <div class="driver-item">
+                                <span class="label">BMI Impact</span>
+                                <span class="value">High</span>
+                            </div>
+                            <div class="driver-item">
+                                <span class="label">Biomarker Profile</span>
+                                <span class="value">Elevated CTX-II</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="tab-icon">image_search</mat-icon>
+                    Visual Analysis
+                </ng-template>
+                <div class="tab-content">
+                    <app-visual-analysis [data]="data"></app-visual-analysis>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+    </mat-card>
+</div>

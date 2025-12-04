@@ -1,0 +1,37 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav mode="side" opened class="app-sidebar">
+    <div class="sidebar-header">
+      <mat-icon class="logo-icon">health_and_safety</mat-icon>
+      <h2>OA Prognosis</h2>
+    </div>
+    <app-input-form (analysisComplete)="onAnalysisComplete($event)"></app-input-form>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <mat-toolbar color="primary" class="app-toolbar">
+      <span>Tri-Modal Knee Osteoarthritis Prognosis System</span>
+      <span class="spacer"></span>
+      <button mat-icon-button>
+        <mat-icon>help_outline</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>settings</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="content-body">
+      <div *ngIf="loading" class="loading-container">
+        <ng-lottie [options]="lottieOptions" width="300px" height="300px"></ng-lottie>
+        <p>Processing Multi-Modal Data...</p>
+      </div>
+
+      <app-dashboard *ngIf="results && !loading" [data]="results"></app-dashboard>
+
+      <div *ngIf="!results && !loading" class="placeholder-state">
+        <mat-icon class="placeholder-icon">analytics</mat-icon>
+        <h3>Ready for Analysis</h3>
+        <p>Please input patient data and upload an X-Ray in the sidebar to begin.</p>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,145 @@
+<div class="form-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Basic Demographics -->
+        <h3 class="section-title">Patient Demographics</h3>
+        <div class="grid-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Patient ID</mat-label>
+                <input matInput formControlName="patientId" placeholder="Ex. 9000123">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" formControlName="age">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Sex</mat-label>
+                <mat-select formControlName="sex">
+                    <mat-option value="Male">Male</mat-option>
+                    <mat-option value="Female">Female</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>BMI</mat-label>
+                <input matInput type="number" formControlName="bmi">
+            </mat-form-field>
+        </div>
+
+        <!-- Clinical Assessment -->
+        <h3 class="section-title">Clinical Assessment</h3>
+        <div class="grid-2">
+            <mat-form-field appearance="outline">
+                <mat-label>KL Grade (0-4)</mat-label>
+                <mat-select formControlName="kl_grade">
+                    <mat-option [value]="0">0 - None</mat-option>
+                    <mat-option [value]="1">1 - Doubtful</mat-option>
+                    <mat-option [value]="2">2 - Minimal</mat-option>
+                    <mat-option [value]="3">3 - Moderate</mat-option>
+                    <mat-option [value]="4">4 - Severe</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>WOMAC Score (0-96)</mat-label>
+                <input matInput type="number" formControlName="womac">
+            </mat-form-field>
+        </div>
+
+        <!-- Advanced Parameters (Collapsible) -->
+        <mat-expansion-panel class="advanced-panel">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>science</mat-icon>
+                    Advanced Clinical & Biochemical Markers
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="grid-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>PASE Score</mat-label>
+                    <input matInput type="number" formControlName="pase">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>KOOS Score</mat-label>
+                    <input matInput type="number" formControlName="koos">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Stiffness</mat-label>
+                    <input matInput type="number" formControlName="stiffness">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>NSAID Usage</mat-label>
+                    <mat-select formControlName="nsaid">
+                        <mat-option value="No">No</mat-option>
+                        <mat-option value="Yes">Yes</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <h4 class="subsection-title">Serum Biomarkers (ng/mL)</h4>
+            <div class="grid-3">
+                <mat-form-field appearance="outline" class="dense-field">
+                    <mat-label>COMP</mat-label>
+                    <input matInput type="number" formControlName="bio_comp">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="dense-field">
+                    <mat-label>CTX-I</mat-label>
+                    <input matInput type="number" formControlName="bio_ctx">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="dense-field">
+                    <mat-label>HA</mat-label>
+                    <input matInput type="number" formControlName="bio_ha">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="dense-field">
+                    <mat-label>C2C</mat-label>
+                    <input matInput type="number" formControlName="bio_c2c">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="dense-field">
+                    <mat-label>CPII</mat-label>
+                    <input matInput type="number" formControlName="bio_cpii">
+                </mat-form-field>
+            </div>
+
+            <h4 class="subsection-title">MRI Quantitative</h4>
+            <div class="grid-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>BML Score</mat-label>
+                    <input matInput type="number" formControlName="mri_bml">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Cyst Score</mat-label>
+                    <input matInput type="number" formControlName="mri_cyst">
+                </mat-form-field>
+            </div>
+        </mat-expansion-panel>
+
+        <!-- X-Ray Upload -->
+        <div class="upload-section">
+            <h3 class="section-title">X-Ray Imaging</h3>
+            <div class="file-drop-area" (click)="fileInput.click()" (dragover)="onDragOver($event)"
+                (drop)="onDrop($event)">
+                <mat-icon class="upload-icon">cloud_upload</mat-icon>
+                <span *ngIf="!selectedFile">Drag & Drop X-Ray DICOM/PNG here or <strong>Browse</strong></span>
+                <span *ngIf="selectedFile" class="file-selected">
+                    <mat-icon>check_circle</mat-icon> {{ selectedFile.name }}
+                </span>
+                <input #fileInput type="file" (change)="onFileSelected($event)" hidden accept="image/*,.dcm">
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid || !selectedFile || loading"
+                class="analyze-btn">
+                <mat-icon>analytics</mat-icon>
+                {{ loading ? 'Processing...' : 'Run Multi-Modal Analysis' }}
+            </button>
+        </div>
+
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+    </form>
+</div>

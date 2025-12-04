@@ -1,0 +1,16 @@
+{
+    "name": "oa-survival-model-root",
+    "version": "1.0.0",
+    "description": "Root package to run both frontend and backend",
+    "scripts": {
+        "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+        "backend": "cd backend && ../.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000",
+        "frontend": "cd frontend && npx ng serve --proxy-config proxy.conf.json --host 0.0.0.0"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^9.2.1"
+    }
+}

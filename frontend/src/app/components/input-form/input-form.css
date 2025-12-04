@@ -1,0 +1,109 @@
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    height: 100%;
+    overflow-y: auto;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.section-title:first-child {
+    margin-top: 0;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.advanced-panel {
+    margin: 1.5rem 0;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    border: 1px solid #E2E8F0;
+}
+
+.subsection-title {
+    font-size: 0.9rem;
+    color: #64748B;
+    margin: 1rem 0 0.5rem;
+}
+
+.upload-section {
+    margin: 2rem 0;
+}
+
+.file-drop-area {
+    border: 2px dashed #CBD5E1;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #F8FAFC;
+    color: #64748B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-drop-area:hover {
+    border-color: #3B82F6;
+    background: #EFF6FF;
+    color: #3B82F6;
+}
+
+.upload-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.file-selected {
+    color: #10B981;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.actions {
+    margin-top: 2rem;
+}
+
+.analyze-btn {
+    width: 100%;
+    padding: 1.5rem !important;
+    font-size: 1.1rem !important;
+    border-radius: 12px !important;
+}
+
+/* Material Overrides for dense layout */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+/* Compact look */
+.dense-field {
+    font-size: 0.9rem;
+}

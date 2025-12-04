@@ -4,10 +4,10 @@ A comprehensive system for Knee Osteoarthritis (OA) prognosis using Deep Surviva
 
 ## Features
 
-*   **Multi-Modal Analysis**: Combines X-Ray imaging (ResNet-18 features), clinical data (demographics, WOMAC, KOOS), and biochemical markers (COMP, CTX-II, etc.).
+*   **Multi-Modal Analysis**: Combines X-Ray imaging (DenseNet-121 features), clinical data (demographics, WOMAC, KOOS), and biochemical markers (COMP, CTX-II, etc.).
 *   **Deep Survival Analysis**: Utilizes Random Survival Forests to predict progression-free survival probabilities over time.
 *   **Generative Explainability**: Uses Diffusion Models (UNet) to generate counterfactual "healthy" versions of patient X-Rays, highlighting structural deviations via heatmaps.
-*   **Interactive Dashboard**: User-friendly Streamlit interface for data input and result visualization.
+*   **Interactive Dashboard**: User-friendly Web Interface (FastAPI) for data input and result visualization.
 *   **Automated Reporting**: Generates detailed PDF reports with prognostic insights and visual analysis.
 
 ## Installation
@@ -18,61 +18,104 @@ A comprehensive system for Knee Osteoarthritis (OA) prognosis using Deep Surviva
     cd oa-survival-model
     ```
 
-2.  **Create a virtual environment** (recommended):
+2.  **Install uv** (Recommended for faster setup):
     ```bash
-    python -m venv .venv
+    pip install uv
+    ```
+
+3.  **Create a virtual environment**:
+    ```bash
+    uv venv .venv
     source .venv/bin/activate  # On Windows: .venv\Scripts\activate
     ```
 
-3.  **Install dependencies**:
+4.  **Install dependencies**:
     ```bash
-    pip install -r requirements.txt
+    uv pip install -r backend/requirements.txt
     ```
 
 ## Usage
 
-### Running the Dashboard
+### Data Processing
 
-To start the web application:
+To build the mega cohort from raw OAI data:
 
 ```bash
-streamlit run app/app.py
+python src/build_mega_cohort.py
 ```
 
-The application will open in your default web browser.
+### Running the Web Interface
+
+The system is organized into a `frontend` (Angular) and `backend` (FastAPI) monorepo structure.
+
+1.  **Start Both Services (Recommended)**:
+    From the root directory, run:
+    ```bash
+    npm start
+    ```
+    This will start both the backend (port 8000) and frontend (port 4200).
+
+2.  **Manual Start (Alternative)**:
+
+    **Backend**:
+    ```bash
+    cd backend
+    ../.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ```
+
+    **Frontend**:
+    ```bash
+    cd frontend
+    npm install # Only first time
+    npx ng serve --proxy-config proxy.conf.json
+    ```
+
+3.  **Access the App**:
+    Open your browser and navigate to `http://localhost:4200`.
 
 ### Model Optimization
 
-To optimize the models for deployment (quantization and FP16 conversion):
+To optimize the PyTorch models using OpenVINO:
 
 ```bash
-python src/optimize_models.py
+cd backend
+python src/optimize_model.py
+```
+
+### Verification
+
+To verify the dataset loading and model upgrade:
+
+```bash
+python verify_upgrade.py
 ```
 
 ## Project Structure
 
 ```
 oa-survival-model/
-├── app/                    # Streamlit application
-│   └── app.py              # Main application entry point
-├── src/                    # Source code
-│   ├── model.py            # Model definitions (WideAndDeep, SemanticEncoder)
-│   ├── dataset.py          # Dataset handling
-│   ├── optimize_models.py  # Model optimization script
-│   └── ...                 # Data processing scripts
-├── models/                 # Trained model files
-│   ├── random_forest_survival.joblib
-│   ├── semantic_encoder.pth
-│   └── diffusion_unet.pth
-├── notebooks/              # Jupyter notebooks for research & training
-├── data/                   # Data directory
-└── requirements.txt        # Python dependencies
+├── backend/                # Backend Code (FastAPI + Python)
+│   ├── app/                # FastAPI application
+│   │   └── main.py         # Main application entry point
+│   ├── src/                # Source code
+│   │   ├── model.py        # Model definitions
+│   │   └── ...
+│   ├── models/             # Trained model weights
+│   ├── data/               # Dataset directory
+│   ├── notebooks/          # Jupyter notebooks
+│   └── requirements.txt    # Python dependencies
+├── frontend/               # Frontend Code (Angular)
+│   ├── src/
+│   │   ├── app/            # Components & Services
+│   │   └── ...
+│   └── ...
+└── README.md               # Project documentation
 ```
 
 ## Models
 
 *   **Survival Model**: Random Survival Forest (scikit-survival) integrating clinical and biomarker data.
-*   **Feature Extractor**: ResNet-18 (or similar) for radiographic feature extraction.
+*   **Feature Extractor**: DenseNet-121 (or similar) for radiographic feature extraction.
 *   **Generative Model**: Latent Diffusion Model (UNet + Semantic Encoder) for generating counterfactual images.
 
 ## License

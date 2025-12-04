@@ -1,0 +1,74 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.header-section {
+    margin-bottom: 1rem;
+}
+
+.content-card {
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    overflow: hidden;
+    background: white;
+}
+
+.tab-content {
+    padding: 2rem;
+}
+
+.tab-icon {
+    margin-right: 8px;
+}
+
+.chart-section h3,
+.drivers-section h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 1.5rem;
+}
+
+.driver-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.driver-item {
+    background: #F8FAFC;
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.driver-item .label {
+    font-size: 0.9rem;
+    color: #64748B;
+    font-weight: 500;
+}
+
+.driver-item .value {
+    font-size: 1.1rem;
+    color: #0F172A;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

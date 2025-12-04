@@ -1,0 +1,39 @@
+<div class="analysis-container">
+    <div class="header">
+        <h3>Generative Biomarker Analysis</h3>
+        <p>Diffusion Autoencoder generated counterfactual 'healthy' state vs. actual anatomy.</p>
+    </div>
+
+    <div class="image-grid">
+        <div class="image-card">
+            <img [src]="'data:image/png;base64,' + data.images.original" alt="Original">
+            <p class="caption">Current Anatomy</p>
+        </div>
+        <div class="image-card">
+            <img [src]="'data:image/png;base64,' + data.images.counterfactual" alt="Counterfactual">
+            <p class="caption">Projected Healthy State</p>
+        </div>
+        <div class="image-card">
+            <img [src]="'data:image/png;base64,' + data.images.heatmap" alt="Heatmap">
+            <p class="caption">Anomaly Heatmap</p>
+        </div>
+    </div>
+
+    <div class="findings-section">
+        <h4><mat-icon>manage_search</mat-icon> Detected Structural Deviations</h4>
+        <div class="findings-list">
+            <div *ngFor="let item of data.findings" class="finding-item">
+                <mat-icon class="bullet">arrow_right</mat-icon>
+                {{ item.replace('**', '').replace('**', '') }}
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button mat-flat-button color="primary" (click)="downloadReport()" [disabled]="downloading"
+            class="download-btn">
+            <mat-icon>{{ downloading ? 'hourglass_empty' : 'picture_as_pdf' }}</mat-icon>
+            {{ downloading ? 'Generating PDF...' : 'Download Clinical Report' }}
+        </button>
+    </div>
+</div>
