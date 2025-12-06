@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PredictionResult, ReportRequest, RiskAnalysis } from '../../interfaces/prediction.interface';
 
 @Component({
   selector: 'app-visual-analysis',
@@ -12,33 +13,52 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './visual-analysis.html',
   styleUrls: ['./visual-analysis.css']
 })
-export class VisualAnalysis {
-  @Input() data: any;
+export class VisualAnalysis implements OnChanges {
+  @Input() data!: PredictionResult;
   downloading = false;
 
+  /** Tracks which images have finished loading */
+  imageLoaded = {
+    original: false,
+    counterfactual: false,
+    heatmap: false
+  };
+
   constructor(private api: ApiService) { }
+
+  /** Reset loading states when new data arrives */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+      this.imageLoaded = {
+        original: false,
+        counterfactual: false,
+        heatmap: false
+      };
+    }
+  }
+
+  /** Called when an image finishes loading */
+  onImageLoad(imageKey: 'original' | 'counterfactual' | 'heatmap'): void {
+    this.imageLoaded[imageKey] = true;
+  }
 
   downloadReport() {
     this.downloading = true;
 
-    // Construct the payload expected by the backend
-    // Note: In a real app, we might want to pass the original form data too, 
-    // but here we'll mock the patient_data structure based on what we have or can infer,
-    // or we should have passed it down. 
-    // For now, let's create a minimal payload that satisfies the backend.
-    // The backend expects: patient_data, risk_analysis, findings, images.
+    // Calculate 5-year probability from survival curve
+    const prob5yr = this.calculate5YearProbability();
 
-    const payload = {
-      patient_data: {
-        "Age": "N/A", "Sex": "N/A", "BMI": "N/A" // We don't have this in 'data' prop currently, would need to pass it down.
-        // For this demo, we'll send placeholders or we need to update the parent to pass form data.
-      },
-      risk_analysis: {
-        risk_score: this.data.risk_score,
-        risk_class: this.data.risk_class
-      },
-      findings: this.data.findings,
-      images: this.data.images
+    const riskAnalysis: RiskAnalysis = {
+      risk_score: this.data.risk_score,
+      risk_class: this.data.risk_class,
+      prob_5yr: prob5yr
+    };
+
+    const payload: ReportRequest = {
+      patient_data: this.data.patient_data,
+      risk_analysis: riskAnalysis,
+      findings: this.data.findings || [],
+      images: this.data.images || {}
     };
 
     this.api.generateReport(payload).subscribe({
@@ -57,5 +77,20 @@ export class VisualAnalysis {
         this.downloading = false;
       }
     });
+  }
+
+  private calculate5YearProbability(): string {
+    if (!this.data.survival_curve || this.data.survival_curve.length === 0) {
+      return 'N/A';
+    }
+
+    const point5yr = this.data.survival_curve.find(p => p.x >= 5);
+    if (point5yr) {
+      return point5yr.y.toFixed(2);
+    }
+
+    // If no point at 5 years, use last available point
+    const lastPoint = this.data.survival_curve[this.data.survival_curve.length - 1];
+    return lastPoint.y.toFixed(2);
   }
 }

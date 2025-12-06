@@ -1,25 +1,26 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav mode="side" opened class="app-sidebar">
-    <div class="sidebar-header">
-      <mat-icon class="logo-icon">health_and_safety</mat-icon>
-      <h2>OA Prognosis</h2>
-    </div>
-    <app-input-form (analysisComplete)="onAnalysisComplete($event)"></app-input-form>
-  </mat-sidenav>
+<div class="app-wrapper">
+  <mat-toolbar color="primary" class="app-toolbar">
+    <mat-icon class="toolbar-icon">health_and_safety</mat-icon>
+    <span>Tri-Modal Knee Osteoarthritis Prognosis System</span>
+    <span class="spacer"></span>
+    <button mat-icon-button matTooltip="Help & About" (click)="openHelpDialog()">
+      <mat-icon>help_outline</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Settings" (click)="openSettingsDialog()">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </mat-toolbar>
 
-  <mat-sidenav-content class="main-content">
-    <mat-toolbar color="primary" class="app-toolbar">
-      <span>Tri-Modal Knee Osteoarthritis Prognosis System</span>
-      <span class="spacer"></span>
-      <button mat-icon-button>
-        <mat-icon>help_outline</mat-icon>
-      </button>
-      <button mat-icon-button>
-        <mat-icon>settings</mat-icon>
-      </button>
-    </mat-toolbar>
+  <main class="main-layout">
+    <section class="input-section">
+      <div class="section-header">
+        <h2>Patient Examination</h2>
+        <p>Enter patient data to generate prognosis</p>
+      </div>
+      <app-input-form (analysisComplete)="onAnalysisComplete($event)"></app-input-form>
+    </section>
 
-    <div class="content-body">
+    <section class="results-section">
       <div *ngIf="loading" class="loading-container">
         <ng-lottie [options]="lottieOptions" width="300px" height="300px"></ng-lottie>
         <p>Processing Multi-Modal Data...</p>
@@ -30,8 +31,8 @@
       <div *ngIf="!results && !loading" class="placeholder-state">
         <mat-icon class="placeholder-icon">analytics</mat-icon>
         <h3>Ready for Analysis</h3>
-        <p>Please input patient data and upload an X-Ray in the sidebar to begin.</p>
+        <p>Patient data and X-Ray analysis results will appear here.</p>
       </div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </section>
+  </main>
+</div>

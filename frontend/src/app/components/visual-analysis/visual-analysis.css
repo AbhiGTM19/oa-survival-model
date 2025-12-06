@@ -39,10 +39,54 @@
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
+/* Image wrapper for positioning skeleton */
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #E2E8F0;
+}
+
+/* Skeleton Loader */
+.skeleton-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            #E2E8F0 0%,
+            #F1F5F9 50%,
+            #E2E8F0 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
 .image-card img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 8px;
     display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+.image-card img.loaded {
+    opacity: 1;
 }
 
 .caption {

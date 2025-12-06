@@ -71,11 +71,13 @@ def create_pdf_report(patient_data, risk_analysis, findings, images):
     story.append(Paragraph("2. AI Prognostic Assessment", styles['Heading2']))
     
     # Color-coded risk text
-    risk_color = "red" if risk_analysis['class'] == "High" else "#FFA500" if risk_analysis['class'] == "Moderate" else "green"
+    # Changed 'class' to 'risk_class' to match API payload
+    r_class = risk_analysis.get('risk_class', 'Unknown')
+    risk_color = "red" if r_class == "High" else "#FFA500" if r_class == "Moderate" else "green"
     
     risk_summary = f"""
-    <b>Primary Analysis:</b> The multi-modal model predicts a <font color='{risk_color}'><b>{risk_analysis['class'].upper()} RISK</b></font> of progression.<br/><br/>
-    <b>Normalized Risk Score (0-100):</b> {risk_analysis['score']:.1f}<br/>
+    <b>Primary Analysis:</b> The multi-modal model predicts a <font color='{risk_color}'><b>{r_class.upper()} RISK</b></font> of progression.<br/><br/>
+    <b>Normalized Risk Score (0-100):</b> {risk_analysis['risk_score']:.1f}<br/>
     <b>5-Year Surgery Probability:</b> {risk_analysis['prob_5yr']}<br/>
     """
     story.append(Paragraph(risk_summary, styles['Normal']))

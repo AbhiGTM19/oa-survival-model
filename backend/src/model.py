@@ -88,12 +88,18 @@ class SemanticEncoder(nn.Module):
         self.features = densenet.features
         
         # DenseNet-121 outputs 1024 channels at the end
+        # DenseNet-121 outputs 1024 channels at the end
         self.global_pool = nn.AdaptiveAvgPool2d((1, 1))
-        self.projection = nn.Linear(1024, latent_dim) # 1024 -> 256
+        
+        # Match checkpoint: proj.0 (Linear), proj.1 (BatchNorm/LayerNorm)
+        self.proj = nn.Sequential(
+            nn.Linear(1024, latent_dim),
+            nn.LayerNorm(latent_dim)
+        )
     
     def forward(self, x):
         x = self.features(x)            # [Batch, 1024, 7, 7]
         x = self.global_pool(x)         # [Batch, 1024, 1, 1]
         x = x.view(x.size(0), -1)       # [Batch, 1024]
-        z = self.projection(x)          # [Batch, 256]
+        z = self.proj(x)                # [Batch, 256]
         return z

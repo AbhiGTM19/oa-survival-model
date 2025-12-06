@@ -1,50 +1,60 @@
 .form-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    height: 100%;
-    overflow-y: auto;
+    background: transparent;
+    /* Changed from white to transparent as it sits on white input-section */
+    padding: 0 1.5rem 2rem 1.5rem;
+    /* Added padding: top right bottom left */
+    height: auto;
+    /* Removed overflow-y: auto to rely on page scroll */
 }
 
+/* Material Field Customization */
+::ng-deep .mat-mdc-form-field-text-suffix {
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #64748B;
+    font-size: 0.9rem;
+    align-self: center;
+}
+
+::ng-deep .mat-mdc-form-field-icon-suffix {
+    padding: 0 8px 0 0 !important;
+    color: #64748B;
+    align-self: center;
+}
+
+/* Section Title */
 .section-title {
     font-size: 1rem;
     font-weight: 600;
     color: #334155;
-    margin-bottom: 1rem;
-    margin-top: 1.5rem;
+    margin: 1rem 0;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-}
-
-.section-title:first-child {
-    margin-top: 0;
+    border-bottom: 1px solid #F1F5F9;
+    /* Add separator */
+    padding-bottom: 0.5rem;
 }
 
 .grid-2 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Responsive grid */
+    gap: 1.5rem;
+    /* Increased gap */
 }
 
 .grid-3 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.8rem;
-}
-
-.advanced-panel {
-    margin: 1.5rem 0;
-    border-radius: 8px !important;
-    box-shadow: none !important;
-    border: 1px solid #E2E8F0;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    /* Responsive grid */
+    gap: 1rem;
 }
 
 .subsection-title {
     font-size: 0.9rem;
     color: #64748B;
-    margin: 1rem 0 0.5rem;
+    margin: 1.5rem 0 1rem;
+    font-weight: 500;
 }
 
 .upload-section {
@@ -54,29 +64,44 @@
 .file-drop-area {
     border: 2px dashed #CBD5E1;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 3rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth transition */
     background: #F8FAFC;
     color: #64748B;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .file-drop-area:hover {
     border-color: #3B82F6;
     background: #EFF6FF;
     color: #3B82F6;
+    transform: translateY(-2px);
+    /* Subtle lift */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
 }
 
 .upload-icon {
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
     margin-bottom: 0.5rem;
+    color: #94A3B8;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Bouncy scale */
+}
+
+.file-drop-area:hover .upload-icon {
+    transform: scale(1.1) rotate(-5deg);
+    /* Playful hover */
+    color: #3B82F6;
 }
 
 .file-selected {
@@ -85,6 +110,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    animation: fadeIn 0.3s ease;
 }
 
 .actions {
@@ -96,14 +122,60 @@
     padding: 1.5rem !important;
     font-size: 1.1rem !important;
     border-radius: 12px !important;
+    height: 56px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Material Overrides for dense layout */
-::ng-deep .mat-mdc-form-field-subscript-wrapper {
+.analyze-btn:not([disabled]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.analyze-btn:not([disabled]):active {
+    transform: translateY(0);
+}
+
+/* Material Overrides - Show error messages when invalid */
+::ng-deep .mat-mdc-form-field:not(.mat-form-field-invalid) .mat-mdc-form-field-subscript-wrapper {
     display: none;
+    /* Hide helper text space for compact look when valid */
 }
 
-/* Compact look */
+::ng-deep .mat-mdc-form-field-error {
+    font-size: 0.75rem;
+    color: #DC2626;
+}
+
 .dense-field {
     font-size: 0.9rem;
+}
+
+/* Remove Number Input Spinners */
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Smooth Form Field Transitions */
+::ng-deep .mdc-notched-outline__leading,
+::ng-deep .mdc-notched-outline__notch,
+::ng-deep .mdc-notched-outline__trailing {
+    transition: border-color 0.2s ease-in-out !important;
+}
+
+::ng-deep .mat-mdc-form-field:hover .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-form-field:hover .mdc-notched-outline__notch,
+::ng-deep .mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+    border-color: #94A3B8 !important;
+    /* Slightly darker on hover */
 }

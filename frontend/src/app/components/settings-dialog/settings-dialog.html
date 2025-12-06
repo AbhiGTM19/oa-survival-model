@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>
+    <mat-icon class="title-icon">settings</mat-icon>
+    Settings
+</h2>
+<mat-dialog-content>
+    <section class="setting-group">
+        <h3>Display Options</h3>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <span class="setting-label">Show Biomarker Reference Ranges</span>
+                <span class="setting-desc">Display normal ranges next to biomarker inputs</span>
+            </div>
+            <mat-slide-toggle [(ngModel)]="settings.showReferenceRanges" color="primary"></mat-slide-toggle>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <span class="setting-label">Auto-expand Advanced Fields</span>
+                <span class="setting-desc">Automatically show all clinical & biomarker fields</span>
+            </div>
+            <mat-slide-toggle [(ngModel)]="settings.autoExpandFields" color="primary"></mat-slide-toggle>
+        </div>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="setting-group">
+        <h3>Report Options</h3>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <span class="setting-label">Include Patient ID in Report</span>
+                <span class="setting-desc">Add patient identifier to PDF reports</span>
+            </div>
+            <mat-slide-toggle [(ngModel)]="settings.includePatientId" color="primary"></mat-slide-toggle>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-info">
+                <span class="setting-label">High Contrast Heatmaps</span>
+                <span class="setting-desc">Use enhanced colors for better visibility</span>
+            </div>
+            <mat-slide-toggle [(ngModel)]="settings.highContrastHeatmaps" color="primary"></mat-slide-toggle>
+        </div>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="setting-group">
+        <h3>About</h3>
+        <div class="about-info">
+            <p><strong>Version:</strong> 1.0.0 (MTech Thesis)</p>
+            <p><strong>Author:</strong> Abhishek Gautam</p>
+            <p><strong>Institution:</strong> VNIT, Nagpur</p>
+        </div>
+    </section>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="save()">Save Settings</button>
+</mat-dialog-actions>

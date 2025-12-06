@@ -6,15 +6,27 @@
 
     <div class="image-grid">
         <div class="image-card">
-            <img [src]="'data:image/png;base64,' + data.images.original" alt="Original">
+            <div class="image-wrapper">
+                <div class="skeleton-loader" *ngIf="!imageLoaded.original"></div>
+                <img [src]="'data:image/png;base64,' + data.images.original" alt="Original X-Ray"
+                    (load)="onImageLoad('original')" [class.loaded]="imageLoaded.original">
+            </div>
             <p class="caption">Current Anatomy</p>
         </div>
         <div class="image-card">
-            <img [src]="'data:image/png;base64,' + data.images.counterfactual" alt="Counterfactual">
+            <div class="image-wrapper">
+                <div class="skeleton-loader" *ngIf="!imageLoaded.counterfactual"></div>
+                <img [src]="'data:image/png;base64,' + data.images.counterfactual" alt="Counterfactual Healthy State"
+                    (load)="onImageLoad('counterfactual')" [class.loaded]="imageLoaded.counterfactual">
+            </div>
             <p class="caption">Projected Healthy State</p>
         </div>
         <div class="image-card">
-            <img [src]="'data:image/png;base64,' + data.images.heatmap" alt="Heatmap">
+            <div class="image-wrapper">
+                <div class="skeleton-loader" *ngIf="!imageLoaded.heatmap"></div>
+                <img [src]="'data:image/png;base64,' + data.images.heatmap" alt="Anomaly Heatmap"
+                    (load)="onImageLoad('heatmap')" [class.loaded]="imageLoaded.heatmap">
+            </div>
             <p class="caption">Anomaly Heatmap</p>
         </div>
     </div>

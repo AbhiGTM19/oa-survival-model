@@ -1,0 +1,73 @@
+:host {
+    display: block;
+}
+
+h2[mat-dialog-title] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1E293B;
+    margin: 0;
+    padding: 1.5rem 1.5rem 1rem;
+}
+
+.title-icon {
+    color: #2563EB;
+}
+
+mat-dialog-content {
+    padding: 0 1.5rem 1rem !important;
+    max-height: 60vh;
+}
+
+.section {
+    padding: 1rem 0;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    margin: 0 0 0.5rem;
+}
+
+p {
+    color: #64748B;
+    line-height: 1.6;
+    margin: 0;
+}
+
+ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    color: #64748B;
+}
+
+li {
+    padding: 0.25rem 0;
+}
+
+mat-divider {
+    margin: 0;
+}
+
+.disclaimer {
+    background: #FEF3C7;
+    margin: 0 -1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0 0 16px 16px;
+}
+
+.disclaimer h3 {
+    color: #92400E;
+}
+
+.disclaimer p {
+    color: #92400E;
+    font-size: 0.9rem;
+}
+
+mat-dialog-actions {
+    padding: 1rem 1.5rem;
+    margin: 0;
+}

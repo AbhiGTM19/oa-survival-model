@@ -22,16 +22,16 @@
                         <div class="driver-list">
                             <div class="driver-item">
                                 <span class="label">KL Grade</span>
-                                <span class="value">{{ data.risk_class === 'High' ? 'Severe (4)' : 'Moderate (2-3)'
-                                    }}</span>
+                                <span class="value">{{ getKLGradeLabel(data.patient_data['KL Grade']) }}</span>
                             </div>
                             <div class="driver-item">
                                 <span class="label">BMI Impact</span>
-                                <span class="value">High</span>
+                                <span class="value">{{ getBMICategory(data.patient_data.BMI) }}</span>
                             </div>
                             <div class="driver-item">
                                 <span class="label">Biomarker Profile</span>
-                                <span class="value">Elevated CTX-II</span>
+                                <span class="value">{{ getBiomarkerStatus(data.patient_data.COMP, data.patient_data.CTX)
+                                    }}</span>
                             </div>
                         </div>
                     </div>

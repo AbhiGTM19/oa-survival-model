@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>
+    <mat-icon class="title-icon">help_outline</mat-icon>
+    Help & About
+</h2>
+<mat-dialog-content>
+    <section class="section">
+        <h3>About This System</h3>
+        <p>
+            The <strong>Tri-Modal Knee Osteoarthritis Prognosis System</strong> is an AI-powered
+            clinical decision support tool that predicts the risk of disease progression and
+            potential need for Total Knee Replacement (TKR) surgery.
+        </p>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="section">
+        <h3>How It Works</h3>
+        <p>The system uses three modalities of data:</p>
+        <ul>
+            <li><strong>Clinical Data:</strong> Patient demographics, KL Grade, WOMAC Score</li>
+            <li><strong>Biomarkers:</strong> COMP, CTX-II, HA, C2C, CPII levels</li>
+            <li><strong>Imaging:</strong> X-Ray analysis using deep learning</li>
+        </ul>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="section">
+        <h3>Understanding Results</h3>
+        <ul>
+            <li><strong>Risk Score (0-100):</strong> Higher values indicate greater risk</li>
+            <li><strong>Risk Class:</strong> Low (&lt;30), Moderate (30-70), High (&gt;70)</li>
+            <li><strong>Survival Curve:</strong> Probability of surgery over time</li>
+            <li><strong>Heatmap:</strong> AI-detected regions of concern</li>
+        </ul>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="section disclaimer">
+        <h3>Disclaimer</h3>
+        <p>
+            This is a research prototype developed for M.Tech thesis. It is not a certified
+            medical diagnostic tool. All predictions should be verified by a qualified
+            healthcare professional.
+        </p>
+    </section>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" (click)="close()">Got It</button>
+</mat-dialog-actions>
