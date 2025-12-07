@@ -34,9 +34,17 @@
 
 .driver-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
     margin-top: 1rem;
+}
+
+/* Tablet Up */
+@media (min-width: 640px) {
+    .driver-list {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
 }
 
 .driver-item {

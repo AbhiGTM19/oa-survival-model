@@ -56,7 +56,7 @@ class TriModalDataset(Dataset):
             image = torch.zeros(3, 224, 224)
 
         # --- 2. Clinical Modality (PLATINUM CONFIG) ---
-        # 11 Features: 8 Original + 3 New High-Value
+        # 15 Features: 8 Basic + 7 Extended
         clin_cols = [
             # Original Basic
             'Age', 'BMI', 'WOMAC_Score', 

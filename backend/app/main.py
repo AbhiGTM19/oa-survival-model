@@ -13,7 +13,7 @@ from fastapi import FastAPI, Form, File, UploadFile, Depends
 from fastapi.responses import JSONResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from diffusers import UNet2DModel, DDPMScheduler
+from diffusers import UNet2DModel, DDIMScheduler
 from pydantic import BaseModel
 
 # --- LOGGING SETUP ---
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 # --- CONFIGURATION ---
 from .config import (
     MODEL_PATHS, DEFAULT_STATS, SEMANTIC_ENCODER_LATENT_DIM,
-    DDPM_TIMESTEPS, DIFFUSION_INFERENCE_STEPS, DIFFUSION_NOISE_SCALE,
+    DDPM_TIMESTEPS, DIFFUSION_INFERENCE_STEPS,
     TRIMODAL_WIDE_INPUT_DIM, TRIMODAL_BIO_INPUT_DIM,
     RISK_THRESHOLD_HIGH, RISK_THRESHOLD_MODERATE, SRC_DIR
 )
@@ -99,9 +99,17 @@ async def lifespan(app: FastAPI):
         else:
             logger.warning(f"   ⚠️ UNet not found at {unet_path}")
         
-        # 5. Scheduler
-        MODELS['scheduler'] = DDPMScheduler(num_train_timesteps=DDPM_TIMESTEPS)
-        logger.info("   ✅ Scheduler initialized")
+        # 5. Scheduler (DDIM for deterministic sampling)
+        MODELS['scheduler'] = DDIMScheduler(
+            num_train_timesteps=DDPM_TIMESTEPS,
+            beta_start=0.0001,
+            beta_end=0.02,
+            beta_schedule="linear",
+            clip_sample=True,
+            set_alpha_to_one=False,
+            prediction_type="epsilon"
+        )
+        logger.info("   ✅ DDIM Scheduler initialized")
 
         # 6. Tri-Modal Survival Model
         trimodal_path = MODEL_PATHS['trimodal']
@@ -230,13 +238,21 @@ async def predict(input_data: PatientInput = Depends()):
     scheduler = MODELS['scheduler']
     
     with torch.no_grad():
+        # Encode input image to semantic latent
         z = encoder(img_gen)
-        z_mod = z + (torch.randn_like(z) * DIFFUSION_NOISE_SCALE)
-        scheduler.set_timesteps(DIFFUSION_INFERENCE_STEPS)
+        
+        # DETERMINISTIC SAMPLING: Use fixed seed for reproducibility
+        # Same input -> same z -> same output (no random noise injection)
+        torch.manual_seed(42)
+        
+        # Start from fixed noise (seeded)
         cf_image = torch.randn_like(img_gen)
+        
+        # DDIM deterministic reverse process
+        scheduler.set_timesteps(DIFFUSION_INFERENCE_STEPS)
         for t in scheduler.timesteps:
-            out = unet(cf_image, t, class_labels=z_mod).sample
-            cf_image = scheduler.step(out, t, cf_image).prev_sample
+            noise_pred = unet(cf_image, t, class_labels=z).sample
+            cf_image = scheduler.step(noise_pred, t, cf_image, return_dict=False)[0]
             
     recon_np = img_gen.cpu().squeeze().numpy() * 0.5 + 0.5
     cf_np = cf_image.cpu().squeeze().numpy() * 0.5 + 0.5
@@ -258,24 +274,26 @@ async def predict(input_data: PatientInput = Depends()):
     # 5. Tri-Modal Prediction (Optional/Logging for now)
     if 'trimodal' in MODELS:
         try:
-            # Prepare Clinical Tensor (11 Features)
+            # Prepare Clinical Tensor (15 Features - matching dataset.py)
             # 1. Age, 2. BMI, 3. WOMAC
-            # 4-7. KL Grade One-Hot (1, 2, 3, 4) - Assuming 0 is reference or handled implicitly? 
-            # Actually, if KL is 0, all 4 are 0.
+            # 4-7. KL Grade One-Hot (1, 2, 3, 4)
+            # 8. Sex_2 (Female)
+            # 9. V00KOOSQOL (KOOS), 10. V00PASE, 11. MRI_BML_Score
+            # 12. Medial_Tibial_Thickness, 13. Lateral_Tibial_Thickness
+            # 14. Education, 15. Income
             kl_1 = 1.0 if input_data.kl_grade == 1 else 0.0
             kl_2 = 1.0 if input_data.kl_grade == 2 else 0.0
             kl_3 = 1.0 if input_data.kl_grade == 3 else 0.0
             kl_4 = 1.0 if input_data.kl_grade == 4 else 0.0
             
-            # 8. Sex_2 (Female)
             sex_2 = 1.0 if input_data.sex == "Female" else 0.0
-            
-            # 9. KOOS, 10. PASE, 11. MRI_BML
             
             clin_features = [
                 float(input_data.age), float(input_data.bmi), float(input_data.womac),
                 kl_1, kl_2, kl_3, kl_4, sex_2,
-                float(input_data.koos), float(input_data.pase), float(input_data.mri_bml)
+                float(input_data.koos), float(input_data.pase), float(input_data.mri_bml),
+                0.0, 0.0,  # Medial/Lateral Tibial Thickness (not collected from user)
+                0.0, 0.0   # Education, Income (not collected from user)
             ]
             clin_tensor = torch.tensor([clin_features], dtype=torch.float32).to(DEVICE)
             

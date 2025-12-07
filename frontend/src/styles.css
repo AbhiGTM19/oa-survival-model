@@ -2,28 +2,55 @@
 /* We just need to ensure basic resets and font application */
 
 :root {
+    /* Color Palette */
     --primary: #2563EB;
+    --primary-light: #60A5FA;
     --primary-dark: #1E40AF;
+    
     --secondary: #64748B;
+    --secondary-light: #94A3B8;
+    
     --bg-main: #F8FAFC;
-    --surface: #FFFFFF;
+    --bg-card: #FFFFFF;
+    
     --text-main: #0F172A;
-    --text-muted: #94A3B8;
+    --text-muted: #64748B;
+    
     --border: #E2E8F0;
-
+    --border-hover: #CBD5E1;
+    
+    /* Spacing & Layout */
     --radius: 16px;
+    --radius-sm: 8px;
+    
+    /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* Typography */
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
 }
 
 html,
 body {
     height: 100%;
     margin: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', 'Roboto', sans-serif;
     background-color: var(--bg-main);
     color: var(--text-main);
+    font-size: 16px; /* Base size */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive Typography */
+@media (max-width: 600px) {
+    html {
+        font-size: 14px;
+    }
 }
 
 /* Scrollbar Styling */

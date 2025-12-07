@@ -35,26 +35,36 @@
     padding-bottom: 0.5rem;
 }
 
+/* Responsive Grids - Mobile First (1 column) */
 .grid-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    /* Responsive grid */
-    gap: 1.5rem;
-    /* Increased gap */
+    grid-template-columns: 1fr;
+    gap: 1rem;
 }
 
 .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    /* Responsive grid */
+    grid-template-columns: 1fr;
     gap: 1rem;
 }
 
 .subsection-title {
-    font-size: 0.9rem;
-    color: #64748B;
+    font-size: 0.95rem;
+    color: var(--text-muted);
     margin: 1.5rem 0 1rem;
     font-weight: 500;
+}
+
+/* Tablet & Desktop Overrides */
+@media (min-width: 640px) {
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
 }
 
 .upload-section {
